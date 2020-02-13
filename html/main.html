@@ -1,0 +1,496 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>RBE 501 HW 2B</title><meta name="generator" content="MATLAB 9.7"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2019-09-29"><meta name="DC.source" content="main.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>RBE 501 HW 2B</h1><!--introduction--><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Question 7</a></li><li><a href="#3">Extra Credits</a></li><li><a href="#5">Question 8</a></li></ul></div><h2 id="1">Question 7</h2><p>The following is a function that plots the 3D Stick figure of the arm and and outputs a transformation matrix.</p><pre class="language-matlab">
+<span class="keyword">function</span> T = plotarm(q1, q2, q3, q4, q5, q6)
+[Origin, TT] = main2(q1, q2, q3, q4, q5, q6-180);
+
+TT = double(TT);
+T = TT(:,:,6);
+x = [];
+y = [];
+z = [];
+<span class="keyword">for</span> i = 1:7
+   x = [x; Origin(i,1)];
+   y = [y; Origin(i,2)];
+   z = [z; Origin(i,3)];
+   
+<span class="keyword">end</span>
+
+figure
+plot3(x, y, z, <span class="string">'-o'</span>,<span class="string">'Color'</span>,<span class="string">'b'</span>,<span class="string">'MarkerSize'</span>,5,<span class="string">'MarkerFaceColor'</span>,<span class="string">'#FF00FF'</span>)
+axis([-1000 1000 -1000 1000 0 1400])
+
+hold <span class="string">on</span>
+
+Fo =  TT(:,:,6) * [0; 0; 0; 1];
+Fx =  TT(:,:,6) * [100; 0; 0; 1];
+Fy =  TT(:,:,6) * [0; 100; 0; 1];
+Fz =  TT(:,:,6) * [0; 0; 100; 1];
+
+plot3([Fo(1), Fx(1)], [Fo(2), Fx(2)], [Fo(3), Fx(3)], <span class="string">'Color'</span>, <span class="string">'r'</span>)
+plot3([Fo(1), Fy(1)], [Fo(2), Fy(2)], [Fo(3), Fy(3)], <span class="string">'Color'</span>, <span class="string">'g'</span>)
+plot3([Fo(1), Fz(1)], [Fo(2), Fz(2)], [Fo(3), Fz(3)], <span class="string">'Color'</span>, <span class="string">'b'</span>)
+txt = {<span class="string">'X'</span>};
+text(Fx(1), Fx(2), Fx(3) ,txt)
+txt = {<span class="string">'Y'</span>};
+text(Fy(1), Fy(2), Fy(3) ,txt)
+txt = {<span class="string">'Z'</span>};
+text(Fz(1), Fz(2), Fz(3) ,txt)
+hold <span class="string">off</span>
+<span class="keyword">end</span>
+
+
+</pre><h2 id="3">Extra Credits</h2><p>The stick model has been replaced by imported CAD data</p><pre class="language-matlab">
+<span class="keyword">function</span> T = plotarmcad(q1, q2, q3, q4, q5, q6)
+
+[Origin, TT] = main2(q1, q2, q3, q4, q5, 180 + q6);
+
+TT = double(TT);
+T = TT(:,:,6);
+
+
+base = stlread(<span class="string">"Base.STL"</span>);
+l1 = stlread(<span class="string">"Link1.STL"</span>);
+l2 = stlread(<span class="string">"Link2.STL"</span>);
+l3 = stlread(<span class="string">"Link3.STL"</span>);
+l4 = stlread(<span class="string">"Link4.STL"</span>);
+l5 = stlread(<span class="string">"Link5.STL"</span>);
+l6 = stlread(<span class="string">"Link6.STL"</span>);
+
+x = [];
+y = [];
+z = [];
+<span class="keyword">for</span> i = 1:7
+   x = [x; Origin(i,1)];
+   y = [y; Origin(i,2)];
+   z = [z; Origin(i,3)];
+   
+<span class="keyword">end</span>
+
+
+
+
+TT0 = [ 1 0 0 0;
+        0 0 -1 0; 
+        0 1 0 0; 
+        0 0 0 1];    
+TT1 = [ 1 0 0 0; 
+        0 -1 0 0; 
+        0 0 -1 0; 
+        0 0 0 1];
+TT2 = [ 0 -1 0 0; 
+        1 0 0 0; 
+        0 0 1 0; 
+        0 0 0 1];
+TT3 = [ 1 0 0 0; 
+        0 0 -1 0; 
+        0 1 0 0; 
+        0 0 0 1];
+TT4 = [ -1 0 0 0; 
+        0 0 1 -30; 
+        0 -1 0  0; 
+        0 0 0 1];
+
+TT5 = [ 1 0 0 0; 
+        0 0 -1 0; 
+        0 1 0 -120; 
+        0 0 0 1];
+TT6 = [ 1 0 0 0; 
+        0 1 0 0; 
+        0 0 1 -100; 
+        0 0 0 1];
+
+A(:,:,1) = [TT(1:3,1:3,1) [0; 0; 0]; 0 0 0 1];
+
+<span class="keyword">for</span> j = 2:6
+   A(:,:,j) =  [TT(1:3,1:3,j) TT(1:3, 4,j-1); 0 0 0 1];
+<span class="keyword">end</span>
+
+
+
+b_points = transpose(TT0 * transpose(cart2hom(base.Points)));
+b_new = triangulation(base.ConnectivityList, b_points(:,1:3));
+
+l1_points = transpose(A(:,:,1)* TT1 * transpose(cart2hom(l1.Points)));
+l1_new = triangulation(l1.ConnectivityList, l1_points(:,1:3));
+
+l2_points = transpose(A(:,:,2) * TT2 * transpose(cart2hom(l2.Points)));
+l2_new = triangulation(l2.ConnectivityList, l2_points(:,1:3));
+
+l3_points = transpose(A(:,:,3) * TT3 * transpose(cart2hom(l3.Points)));
+l3_new = triangulation(l3.ConnectivityList, l3_points(:,1:3));
+
+l4_points = transpose( A(:,:,4) * TT4 * transpose(cart2hom(l4.Points)));
+l4_new = triangulation(l4.ConnectivityList, l4_points(:,1:3));
+
+l5_points = transpose(A(:,:,5) * TT5 * transpose(cart2hom(l5.Points)));
+l5_new = triangulation(l5.ConnectivityList, l5_points(:,1:3));
+
+l6_points = transpose(A(:,:,6) * TT6 * transpose(cart2hom(l6.Points)));
+l6_new = triangulation(l6.ConnectivityList, l6_points(:,1:3));
+
+figure
+trimesh( b_new, <span class="string">'EdgeColor'</span>, [0 0 0], <span class="string">'LineStyle'</span>, <span class="string">'--'</span>, <span class="string">'FaceColor'</span>, [0 0 0], <span class="string">'FaceAlpha'</span>, <span class="string">'0.5'</span>)
+hold <span class="string">on</span>
+trimesh( l1_new, <span class="string">'EdgeColor'</span>, [1 0 0], <span class="string">'LineStyle'</span>, <span class="string">'--'</span>, <span class="string">'FaceColor'</span>, [1 0 0], <span class="string">'FaceAlpha'</span>, <span class="string">'0.5'</span>)
+trimesh( l2_new, <span class="string">'EdgeColor'</span>, [0 1 0], <span class="string">'LineStyle'</span>, <span class="string">'--'</span>, <span class="string">'FaceColor'</span>, [0 1 0], <span class="string">'FaceAlpha'</span>, <span class="string">'0.5'</span>)
+trimesh( l3_new, <span class="string">'EdgeColor'</span>, [0 0 1], <span class="string">'LineStyle'</span>, <span class="string">'--'</span>, <span class="string">'FaceColor'</span>, [0 0 1], <span class="string">'FaceAlpha'</span>, <span class="string">'0.5'</span>)
+trimesh( l4_new, <span class="string">'EdgeColor'</span>, [1 1 0], <span class="string">'LineStyle'</span>, <span class="string">'--'</span>, <span class="string">'FaceColor'</span>, [1 1 0], <span class="string">'FaceAlpha'</span>, <span class="string">'0.5'</span>)
+trimesh( l5_new, <span class="string">'EdgeColor'</span>, [1 0 1], <span class="string">'LineStyle'</span>, <span class="string">'--'</span>, <span class="string">'FaceColor'</span>, [1 0 1], <span class="string">'FaceAlpha'</span>, <span class="string">'0.5'</span>)
+trimesh( l6_new, <span class="string">'EdgeColor'</span>, [0 1 1], <span class="string">'LineStyle'</span>, <span class="string">'--'</span>, <span class="string">'FaceColor'</span>, [0 1 1], <span class="string">'FaceAlpha'</span>, <span class="string">'0.5'</span>)
+xlabel(<span class="string">'x'</span>)
+ylabel(<span class="string">'y'</span>)
+zlabel(<span class="string">'z'</span>)
+axis([-800 800 -800 800 -800 800])
+
+Fo =  TT(:,:,6) * [0; 0; 0; 1];
+Fx =  TT(:,:,6) * [100; 0; 0; 1];
+Fy =  TT(:,:,6) * [0; 100; 0; 1];
+Fz =  TT(:,:,6) * [0; 0; 100; 1];
+
+plot3([Fo(1), Fx(1)], [Fo(2), Fx(2)], [Fo(3), Fx(3)], <span class="string">'Color'</span>, <span class="string">'r'</span>)
+plot3([Fo(1), Fy(1)], [Fo(2), Fy(2)], [Fo(3), Fy(3)], <span class="string">'Color'</span>, <span class="string">'g'</span>)
+plot3([Fo(1), Fz(1)], [Fo(2), Fz(2)], [Fo(3), Fz(3)], <span class="string">'Color'</span>, <span class="string">'b'</span>)
+txt = {<span class="string">'X'</span>};
+text(Fx(1), Fx(2), Fx(3) ,txt)
+txt = {<span class="string">'Y'</span>};
+text(Fy(1), Fy(2), Fy(3) ,txt)
+txt = {<span class="string">'Z'</span>};
+text(Fz(1), Fz(2), Fz(3) ,txt)
+<span class="comment">%shading interp</span>
+hold <span class="string">off</span>
+<span class="keyword">end</span>
+
+</pre><h2 id="5">Question 8</h2><pre class="codeinput"><span class="keyword">function</span> main()
+</pre><pre class="codeinput"><span class="comment">%*Configuration 1*</span>
+T = plotarm(0,30,-30,0,0,0)
+</pre><pre class="codeoutput">
+T =
+
+         0         0    1.0000  509.0000
+         0    1.0000         0         0
+   -1.0000         0         0  593.8269
+         0         0         0    1.0000
+
+</pre><img vspace="5" hspace="5" src="main_01.png" alt=""> <pre class="codeinput">T = plotarmcad(0,30,-30,0,0,0);
+</pre><img vspace="5" hspace="5" src="main_02.png" alt=""> <pre class="codeinput">eul = rotm2eul(T(1:3,1:3), <span class="string">'zyx'</span>);
+eul = [rad2deg(eul(3)) rad2deg(eul(2)) rad2deg(eul(1))];
+disp(<span class="string">'End Effector Position in mm'</span>)
+disp(T(1:3,4))
+disp(<span class="string">'Angles in degrees'</span>)
+disp(eul)
+</pre><pre class="codeoutput">End Effector Position in mm
+  509.0000
+         0
+  593.8269
+
+Angles in degrees
+     0    90     0
+
+</pre><pre class="codeinput"><span class="comment">%Comparing these configurations with the output from Robot Studio</span>
+</pre><p><img vspace="5" hspace="5" src="Config1.png" alt=""> </p><pre class="codeinput"><span class="comment">%*Configuration 2*</span>
+T = plotarm(0,30,-30,60,-45,0)
+</pre><pre class="codeoutput">
+T =
+
+    0.7071         0    0.7071  487.9117
+    0.6124    0.5000   -0.6124  -44.0908
+   -0.3536    0.8660    0.3536  619.2827
+         0         0         0    1.0000
+
+</pre><img vspace="5" hspace="5" src="main_03.png" alt=""> <pre class="codeinput">T = plotarmcad(0,30,-30,60,-45,0);
+</pre><img vspace="5" hspace="5" src="main_04.png" alt=""> <pre class="codeinput">eul = rotm2eul(T(1:3,1:3), <span class="string">'zyx'</span>);
+eul = [rad2deg(eul(3)) rad2deg(eul(2)) rad2deg(eul(1))];
+disp(<span class="string">'End Effector Position in mm'</span>)
+disp(T(1:3,4))
+disp(<span class="string">'Angles in degrees'</span>)
+disp(eul)
+</pre><pre class="codeoutput">End Effector Position in mm
+  487.9117
+  -44.0908
+  619.2827
+
+Angles in degrees
+   67.7923   20.7048   40.8934
+
+</pre><pre class="codeinput"><span class="comment">%Comparing these configurations with the output from Robot Studio</span>
+</pre><p><img vspace="5" hspace="5" src="Config2.png" alt=""> </p><pre class="codeinput"><span class="comment">%*Configuration 3*</span>
+T = plotarm(-30,30,-30,60,-45,30)
+</pre><pre class="codeoutput">
+T =
+
+    0.9205   -0.2428    0.3062  400.4985
+    0.3696    0.2866   -0.8839 -282.1396
+    0.1268    0.9268    0.3536  619.2827
+         0         0         0    1.0000
+
+</pre><img vspace="5" hspace="5" src="main_05.png" alt=""> <pre class="codeinput">T = plotarmcad(-30,30,-30,60,-45,30);
+</pre><img vspace="5" hspace="5" src="main_06.png" alt=""> <pre class="codeinput">eul = rotm2eul(T(1:3,1:3), <span class="string">'zyx'</span>);
+eul = [rad2deg(eul(3)) rad2deg(eul(2)) rad2deg(eul(1))];
+disp(<span class="string">'End Effector Position in mm'</span>)
+disp(T(1:3,4))
+disp(<span class="string">'Angles in degrees'</span>)
+disp(eul)
+</pre><pre class="codeoutput">End Effector Position in mm
+  400.4985
+ -282.1396
+  619.2827
+
+Angles in degrees
+   69.1188   -7.2862   21.8766
+
+</pre><pre class="codeinput"><span class="comment">%Comparing these configurations with the output from Robot Studio</span>
+</pre><p><img vspace="5" hspace="5" src="Config3.png" alt=""> </p><pre class="codeinput"><span class="comment">%*Configuration 4*</span>
+T = plotarm(0,-30,30,0,0,0)
+</pre><pre class="codeoutput">
+T =
+
+         0         0    1.0000  239.0000
+         0    1.0000         0         0
+   -1.0000         0         0  593.8269
+         0         0         0    1.0000
+
+</pre><img vspace="5" hspace="5" src="main_07.png" alt=""> <pre class="codeinput">T = plotarmcad(0,-30,30,0,0,0);
+</pre><img vspace="5" hspace="5" src="main_08.png" alt=""> <pre class="codeinput">eul = rotm2eul(T(1:3,1:3), <span class="string">'zyx'</span>);
+eul = [rad2deg(eul(3)) rad2deg(eul(2)) rad2deg(eul(1))];
+disp(<span class="string">'End Effector Position in mm'</span>)
+disp(T(1:3,4))
+disp(<span class="string">'Angles in degrees'</span>)
+disp(eul)
+</pre><pre class="codeoutput">End Effector Position in mm
+  239.0000
+         0
+  593.8269
+
+Angles in degrees
+     0    90     0
+
+</pre><pre class="codeinput"><span class="comment">%Comparing these configurations with the output from Robot Studio</span>
+</pre><p><img vspace="5" hspace="5" src="Config4.png" alt=""> </p><pre class="codeinput"><span class="comment">%*Configuration 5*</span>
+T = plotarm(0,-30,30,90,-90,-90)
+</pre><pre class="codeoutput">
+T =
+
+         0    1.0000         0  167.0000
+         0         0   -1.0000  -72.0000
+   -1.0000         0         0  593.8269
+         0         0         0    1.0000
+
+</pre><img vspace="5" hspace="5" src="main_09.png" alt=""> <pre class="codeinput">T = plotarmcad(0,-30,30,90,-90,-90);
+</pre><img vspace="5" hspace="5" src="main_10.png" alt=""> <pre class="codeinput">eul = rotm2eul(T(1:3,1:3), <span class="string">'zyx'</span>);
+eul = [rad2deg(eul(3)) rad2deg(eul(2)) rad2deg(eul(1))];
+disp(<span class="string">'End Effector Position in mm'</span>)
+disp(T(1:3,4))
+disp(<span class="string">'Angles in degrees'</span>)
+disp(eul)
+</pre><pre class="codeoutput">End Effector Position in mm
+  167.0000
+  -72.0000
+  593.8269
+
+Angles in degrees
+    90    90     0
+
+</pre><pre class="codeinput"><span class="comment">%Comparing these configurations with the output from Robot Studio</span>
+</pre><p><img vspace="5" hspace="5" src="Config5.png" alt=""> </p><pre class="codeinput"><span class="comment">%This is essentially the same, as the image and our answer would give the</span>
+<span class="comment">%same rotation matrix</span>
+disp(eul2rotm([deg2rad(0) deg2rad(90) deg2rad(-90)],<span class="string">'zyx'</span>))
+disp(T(1:3,1:3))
+</pre><pre class="codeoutput">    0.0000   -1.0000    0.0000
+         0    0.0000    1.0000
+   -1.0000   -0.0000    0.0000
+
+     0     1     0
+     0     0    -1
+    -1     0     0
+
+</pre><p><b>Thus there was no deviation between the result obtained from MATLAB and Robot Studio except that it has been rounded off in Robot Studio</b></p><pre class="codeinput"><span class="keyword">end</span>
+</pre><p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2019b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% RBE 501 HW 2B
+%
+
+%% Question 7
+% The following is a function that plots the 3D Stick figure of the arm and 
+% and outputs a transformation matrix.
+%% 
+% <include>plotarm.m</include>
+
+%% Extra Credits
+% The stick model has been replaced by imported CAD data
+%% 
+% <include>plotarmcad.m</include>
+
+
+%% Question 8
+function main()
+%*Configuration 1*
+T = plotarm(0,30,-30,0,0,0)
+%%
+T = plotarmcad(0,30,-30,0,0,0);
+%%
+
+eul = rotm2eul(T(1:3,1:3), 'zyx');
+eul = [rad2deg(eul(3)) rad2deg(eul(2)) rad2deg(eul(1))];
+disp('End Effector Position in mm')
+disp(T(1:3,4))
+disp('Angles in degrees')
+disp(eul)
+%%
+%Comparing these configurations with the output from Robot Studio
+%%
+% <<Config1.png>> 
+% 
+%%
+%*Configuration 2*
+T = plotarm(0,30,-30,60,-45,0)
+%%
+T = plotarmcad(0,30,-30,60,-45,0);
+%%
+
+eul = rotm2eul(T(1:3,1:3), 'zyx');
+eul = [rad2deg(eul(3)) rad2deg(eul(2)) rad2deg(eul(1))];
+disp('End Effector Position in mm')
+disp(T(1:3,4))
+disp('Angles in degrees')
+disp(eul)
+%%
+%Comparing these configurations with the output from Robot Studio
+%%
+% <<Config2.png>> 
+% 
+%%
+
+%*Configuration 3*
+T = plotarm(-30,30,-30,60,-45,30)
+%%
+T = plotarmcad(-30,30,-30,60,-45,30);
+%%
+
+eul = rotm2eul(T(1:3,1:3), 'zyx');
+eul = [rad2deg(eul(3)) rad2deg(eul(2)) rad2deg(eul(1))];
+disp('End Effector Position in mm')
+disp(T(1:3,4))
+disp('Angles in degrees')
+disp(eul)
+%%
+%Comparing these configurations with the output from Robot Studio
+%%
+% <<Config3.png>> 
+% 
+%%
+
+%*Configuration 4*
+T = plotarm(0,-30,30,0,0,0)
+%%
+T = plotarmcad(0,-30,30,0,0,0);
+%%
+
+eul = rotm2eul(T(1:3,1:3), 'zyx');
+eul = [rad2deg(eul(3)) rad2deg(eul(2)) rad2deg(eul(1))];
+disp('End Effector Position in mm')
+disp(T(1:3,4))
+disp('Angles in degrees')
+disp(eul)
+%%
+%Comparing these configurations with the output from Robot Studio
+%%
+% <<Config4.png>> 
+% 
+%%
+
+%*Configuration 5*
+T = plotarm(0,-30,30,90,-90,-90)
+%%
+T = plotarmcad(0,-30,30,90,-90,-90);
+%%
+
+eul = rotm2eul(T(1:3,1:3), 'zyx');
+eul = [rad2deg(eul(3)) rad2deg(eul(2)) rad2deg(eul(1))];
+disp('End Effector Position in mm')
+disp(T(1:3,4))
+disp('Angles in degrees')
+disp(eul)
+%%
+%Comparing these configurations with the output from Robot Studio
+%%
+% <<Config5.png>> 
+% 
+%%
+%This is essentially the same, as the image and our answer would give the
+%same rotation matrix
+disp(eul2rotm([deg2rad(0) deg2rad(90) deg2rad(-90)],'zyx'))
+disp(T(1:3,1:3))
+%%
+% *Thus there was no deviation between the result obtained from MATLAB and
+% Robot Studio except that it has been rounded off in Robot Studio*
+end
+
+##### SOURCE END #####
+--></body></html>
